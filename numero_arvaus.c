@@ -30,28 +30,66 @@ int main(int argc, char *argv[]) {
 	printf(" Number is generater between 0..%d\n", MAX_NRO);
 	printf(" start quessing ...\n");
 	
-	/* Game in running.... */
+	/* Game is running.... */
 	do{
-		/* Update round number */
-		count++;
-		
+
 		/* User quess */
+		char OK, merkki;
+		
+		OK = 1;
+		your_quess = 0;
 		printf(" Give number: ");
-		scanf("%d", &your_quess);
+		
+		/* Check user input */
+		do{
+			/* Read one char at time */
+			merkki = getchar();
+			/* If number, add value to ansver number */
+			if((merkki >= '0') && (merkki <= '9')){
+				your_quess = your_quess * 10 + (merkki - '0');
+				OK = 1;
+				
+			/* If EOL (End Of Line),... */
+			}else if(merkki == '\n'){
+				/* Input OK, continue to value check ... */
+				if(OK == 1){
+					OK = 0;
+				/* Input Not OK, entered new value... */
+				} else {
+					your_quess = 0;
+					printf(" Give number: ");
+				}
+			/* Error case: Not number */
+			}else{
+				printf(" Error: Not number \"%c\"\n", merkki);	
+				OK = 2;
+			}
+			/* Error case: entered value too big (>100) */
+			if(your_quess > 100){
+				printf(" Error: Entered value %d over maximun value %d \n", \
+					your_quess, MAX_NRO);
+				OK = 2;
+			}
+		}while(OK);
+		
+     
+        /* Update round number */
+		count++;
 		
 		/* Check how well user quess */
 		
 		/* Quess too high */
 		if(your_quess > random_number)		{
-			printf(" Your quess is too high \n");
+			printf(" Round %d: Your quess is too high \n", count);
 		}
 		/* Quess too low */
 		else if(your_quess < random_number){
-			printf(" Your quess is too low \n");
+			printf(" Round %d: Your quess is too low \n", count);
 		}
 		/* Quess is correct! */
 		else{
-			printf(" Wow! You guessed corrected number in round %d \n", count);
+			printf(" Wow! You guessed corrected number in round %d \n", \
+				count);
 		}
 	/* Continue untill quess is correct */
 	}while(random_number != your_quess);
