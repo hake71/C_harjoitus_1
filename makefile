@@ -9,6 +9,8 @@ all: $(FILES) $(INCLUDE)
 
 clean:
 	rm -f *.o
+	rm -f *~
+	rm -f Env
 	
 run:
 	./$(EXE_NAME)
